@@ -28,20 +28,43 @@
             
             jmp ERROR
             
-            
-  to_lower:                         ;convert to lower
+               
+               
+  to_lower: 
+                                      ;convert to lower
             OR cl,20h
-            jmp OUTPUT 
+            jmp lower_label
             
-  to_upper:
+  to_upper: 
+  
+            
             XOR cl,20h              ;convert to upper
-            jmp OUTPUT
+            jmp upper_label
             
             
-  OUTPUT:
-            mov ah,02               ;show output
-            mov dl,09h
+  lower_label:  
+              
+             mov ah,02
+             mov dl,09h
+             int 21h
+             lea dx,lower
+             jmp OUTPUT  
+             
+  upper_label:   
+             
+             mov ah,02
+             mov dl,09h
+             int 21h   
+             lea dx,upper
+             jmp OUTPUT
+        
+            
+  OUTPUT:   
+            
+            mov ah,09
             int 21h
+            
+            mov ah,02
             mov dl,cl
             int 21h 
             
